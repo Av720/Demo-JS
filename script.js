@@ -61,11 +61,14 @@ goBtn.on("click", requestEvents);
 //old code
 function requestEvents() {
     var cityId = $("#typeDestination").val();
-
+    var dateStart =$("#startDate").val();
+    var dateEnd =$("#endDate").val();
     var ticketURL =
         "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" +
         "&city=" +
-        cityId;
+        cityId + "&" + "daterange=from"+ dateStart + "-to-" + dateEnd;
+        console.log(dateStart);
+        console.log(dateEnd);
 
     fetch(ticketURL)
         .then(function (response) {
@@ -76,7 +79,7 @@ function requestEvents() {
             console.log(data);
 
             // first event
-            for (i = 0; i < 5; i++) {
+            for (i = 0; i < 4; i++) {
                 var mainEvent0 = data._embedded.events[0].name;
                 console.log(mainEvent0);
                 var maineventdate0 = data._embedded.events[0].dates.start.dateTime;
@@ -87,8 +90,12 @@ function requestEvents() {
                 console.log(venue)
 
                 // using jquery to tie the variables.
-                $("#event" + i).text(mainEvent0[i].name);
-
+                $("#event" + i).html(mainEvent0);
+                $("#date" + i).html(maineventdate0);
+                $("#venue" + i).html(venue);
+                console.log(mainEvent0);
+                // add date parameter to url (&=)
+                // var for date range
 
 
 
