@@ -80,13 +80,13 @@ function requestEvents() {
 
             // first event
             for (i = 0; i < 4; i++) {
-                var mainEvent0 = data._embedded.events[0].name;
+                var mainEvent0 = data._embedded.events[i].name;
                 console.log(mainEvent0);
-                var maineventdate0 = data._embedded.events[0].dates.start.dateTime;
+                var maineventdate0 = data._embedded.events[i].dates.start.localDate;
                 console.log(maineventdate0);
                 // var mainDescription0 = data._embedded.events[0].info;
                 // console.log(mainDescription0);
-                var venue = data._embedded.events[0]._embedded.venues[0].name;
+                var venue = data._embedded.events[i]._embedded.venues[0].name;
                 console.log(venue)
 
                 // using jquery to tie the variables.
