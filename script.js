@@ -52,113 +52,112 @@ function requestBreweries() {
 // TICKET MASTER API START CODE
 
 var ticketApiKey = "AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4";
-// var mainEvent0 = $("#event-0");
 // var maineventdate0 = $("#date-0");
 // var mainDescription0 = $("#description-0");
-// var events = json._embedded.events;
-// var item = items.first();
 var page = 0;
-// var cityId = $("#typeDestination").val();
 
-goBtn.on('click', requestEvents);
-
-function requestEvents(page) {
-    var cityId = $("#typeDestination").val();
-    $('#events-panel').show();
-    $('#attraction-panel').hide();
-
-    if (page < 0) {
-        page = 0;
-        return;
-    }
-    if (page > 0) {
-        if (page > requestEvents.json.page.totalPages - 1) {
-            page = 0;
-        }
-    }
-
-    $.ajax({
-        type: "GET",
-        url: "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId + "&" + page,
-        async: true,
-        dataType: "json",
-        success: function (json) {
-            requestEvents.json = json;
-            showEvents(json);
-        },
-
-    });
-}
-
-
-function showEvents(json) {
-
-    // console.log(json)
-    var items = $('#events .list-group-item');
-    items.hide();
-    var events = json._embedded.events;
-
-    console.log(events)
-    var item = items.first();
-    for (var i = 0; i < events.length; i++) {
-        item.children('.list-group-item-heading').text(events[i].name);
-        item.children('.list-group-item-text').text(events[i].dates.start.localDate);
-
-
-    }
-}
-
-requestEvents(page);
-
-
-
-
-
-
-
+goBtn.on("click", requestEvents);
 
 //old code
+function requestEvents() {
+    var cityId = $("#typeDestination").val();
+
+    var ticketURL =
+        "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" +
+        "&city=" +
+        cityId;
+
+    fetch(ticketURL)
+        .then(function (response) {
+            // console.log(response);
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+
+            // first event
+            for (i = 0; i < 5; i++) {
+                var mainEvent0 = data._embedded.events[0].name;
+                console.log(mainEvent0);
+                var maineventdate0 = data._embedded.events[0].dates.start.dateTime;
+                console.log(maineventdate0);
+                // var mainDescription0 = data._embedded.events[0].info;
+                // console.log(mainDescription0);
+                var venue = data._embedded.events[0]._embedded.venues[0].name;
+                console.log(venue)
+
+                // using jquery to tie the variables.
+                $("#event" + i).text(mainEvent0[i].name);
+
+
+
+
+            }
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------
+
+// different code using ajax
 // function requestEvents(page) {
 //     var cityId = $("#typeDestination").val();
+//     $('').show();
+//     $('').hide();
 
-//     var ticketURL = "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId;
+//     if (page < 0) {
+//         page = 0;
+//         return;
+//     }
+//     if (page > 0) {
+//         if (page > requestEvents.json.page.totalPages - 1) {
+//             page = 0;
+//         }
+//     }
 
-//     fetch(ticketURL)
-//         .then(function (response) {
-//             // console.log(response);
-//             return response.json();
-//         })
-//         .then(function (data) {
-//             console.log(data);
-//             if (page < 0) {
-//                 page = 0;
-//                 return;
-//             }
-//             if (page > 0) {
-//                 if (page > getEvents.json.page.totalPages - 1) {
-//                     page = 0;
-//                     return;
-//                 }
-//             }
+//     $.ajax({
+//         type: "GET",
+//         url: "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId + "&" + page,
+//         async: true, // code will continue  and nothing gets paused
+//         dataType: "json", // code will continue
+//         success: function (json) {
+//             requestEvents.json = json;
+//             showEvents(json);
+//         },
 
-
-
-
-
-//             // for (var i = 0; i < events.length; i++) {
-//             //     mainEvent0.text(events.name)
-
-
-
-
-
-
-
-
-//             // for (var i = 0; i < data.length; i++) {
-
-//             // }
-
-//             // }
-//         })
+//     });
 // }
+
+// function showEvents(json) {
+
+//     // console.log(json)
+//     var items = $('#events .list-group-item');
+//     items.hide();
+//     var events = json._embedded.events;
+
+//     console.log(events)
+//     var item = items.first();
+//     for (var i = 0; i < events.length; i++) {
+//         item.children('.list-group-item-heading').text(events[i].name);
+//         item.children('.list-group-item-text').text(events[i].dates.start.localDate);
+
+//     }
+// }
+
+// requestEvents(page);
