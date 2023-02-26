@@ -63,11 +63,14 @@ function requestEvents() {
     var dateEnd = $("#endDate").val();
     var ticketURL =
         // "https://app.ticketmaster.com/discovery/v2/events.json?apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId + "&countryCode=US" + "&startDateTime=" + dateStart;
-        "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&" +
-        "&city=" +
-        cityId +
-        "&starteDateTime=" +
-        dateStart;
+        // "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&" +
+        // "&city=" +
+        // cityId +
+        // "&starteDateTime=" +
+        // dateStart;
+        "https://app.ticketmaster.com/discovery/v2/events.json?sort=randomapikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4" + "&city" + cityId + "&datestart" + dateStart;
+
+
     console.log(dateStart);
     console.log(dateEnd);
     console.log(ticketURL);
