@@ -18,7 +18,9 @@ function requestBreweries() {
     appPage.removeClass("hide");
     var city = $("#typeDestination").val();
     var breweryURL =
-        "https://api.openbrewerydb.org/breweries?by_city=" + city + "&per_page=3";
+        "https://api.openbrewerydb.org/breweries?by_city=" + city;
+
+    // + "&per_page=3";
 
     fetch(breweryURL)
         .then(function (response) {
@@ -27,6 +29,7 @@ function requestBreweries() {
         })
         .then(function (data) {
             console.log(data);
+
             if (city === "") {
                 return;
             }
@@ -55,17 +58,25 @@ var ticketApiKey = "AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4";
 // var maineventdate0 = $("#date-0");
 // var mainDescription0 = $("#description-0");
 var page = 0;
-
+var today = new Date()
+console.log(today)
+// console.log(dateI)
 goBtn.on("click", requestEvents);
 
 //old code
 function requestEvents() {
     var cityId = $("#typeDestination").val();
-
+    var dateStart = $("#startDate").val();
+    // var newstartDate = dateStart.moment().format('YYYY-MM-DD');
+    var dateEnd = $("#endDate").val();
     var ticketURL =
-        "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" +
-        "&city=" +
-        cityId;
+
+        // "https://app.ticketmaster.com/discovery/v2/events.json?apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId + "&countryCode=US" + "&startDateTime=" + dateStart;
+        "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&" +
+        "&city=" + cityId + "&starteDateTime=" + dateStart;
+    console.log(dateStart);
+    console.log(dateEnd);
+    console.log(ticketURL)
 
     fetch(ticketURL)
         .then(function (response) {
@@ -76,23 +87,29 @@ function requestEvents() {
             console.log(data);
 
             // first event
-            for (i = 0; i < 5; i++) {
-                var mainEvent0 = data._embedded.events[0].name;
-                console.log(mainEvent0);
-                var maineventdate0 = data._embedded.events[0].dates.start.dateTime;
-                console.log(maineventdate0);
-                // var mainDescription0 = data._embedded.events[0].info;
-                // console.log(mainDescription0);
-                var venue = data._embedded.events[0]._embedded.venues[0].name;
-                console.log(venue)
+            for (i = 0; i < 4; i++) {
+                var mainEvent0 = data._embedded.events[i].name;
+                // console.log(mainEvent0);
+                var maineventdate0 = data._embedded.events[1].dates.start.localDate;
+                // console.log(maineventdate0);
+                var venue = data._embedded.events[i]._embedded.venues[0].name;
+                // console.log(venue);
+                var purchaseURL = data._embedded.events[i].url;
+                // console.log(purchaseURL)
 
                 // using jquery to tie the variables.
-                $("#event" + i).text(mainEvent0[i].name);
-
-
-
+                $("#event" + i).html(mainEvent0);
+                $("#date" + i).html(maineventdate0);
+                $("#venue" + i).html(venue);
+                $("#purchase-tickets" + i).html(purchaseURL);
+                // console.log(mainEvent0);
+                // add date parameter to url (&=)
+                // var for date range
 
             }
+
+
+            // document.getElementById("").addEventListener("click", purchaseURL);
         });
 }
 
@@ -101,6 +118,129 @@ function requestEvents() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------
+
+// different code using ajax
+// function requestEvents(page) {
+//     var cityId = $("#typeDestination").val();
+//     $('').show();
+//     $('').hide();
+
+//     if (page < 0) {
+//         page = 0;
+//         return;
+//     }
+//     if (page > 0) {
+//         if (page > requestEvents.json.page.totalPages - 1) {
+//             page = 0;
+//         }
+//     }
+
+//     $.ajax({
+//         type: "GET",
+//         url: "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId + "&" + page,
+//         async: true, // code will continue  and nothing gets paused
+//         dataType: "json", // code will continue
+//         success: function (json) {
+//             requestEvents.json = json;
+//             showEvents(json);
+//         },
+
+//     });
+// }
+
+// function showEvents(json) {
+
+//     // console.log(json)
+//     var items = $('#events .list-group-item');
+//     items.hide();
+//     var events = json._embedded.events;
+
+//     console.log(events)
+//     var item = items.first();
+//     for (var i = 0; i < events.length; i++) {
+//         item.children('.list-group-item-heading').text(events[i].name);
+//         item.children('.list-group-item-text').text(events[i].dates.start.localDate);
+
+//     }
+// }
+
+// requestEvents(page);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------
+
+// different code using ajax
+// function requestEvents(page) {
+//     var cityId = $("#typeDestination").val();
+//     $('').show();
+//     $('').hide();
+
+//     if (page < 0) {
+//         page = 0;
+//         return;
+//     }
+//     if (page > 0) {
+//         if (page > requestEvents.json.page.totalPages - 1) {
+//             page = 0;
+//         }
+//     }
+
+//     $.ajax({
+//         type: "GET",
+//         url: "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId + "&" + page,
+//         async: true, // code will continue  and nothing gets paused
+//         dataType: "json", // code will continue
+//         success: function (json) {
+//             requestEvents.json = json;
+//             showEvents(json);
+//         },
+
+//     });
+// }
+
+// function showEvents(json) {
+
+//     // console.log(json)
+//     var items = $('#events .list-group-item');
+//     items.hide();
+//     var events = json._embedded.events;
+
+//     console.log(events)
+//     var item = items.first();
+//     for (var i = 0; i < events.length; i++) {
+//         item.children('.list-group-item-heading').text(events[i].name);
+//         item.children('.list-group-item-text').text(events[i].dates.start.localDate);
+
+//     }
+// }
+
+// requestEvents(page);
 
 
 
