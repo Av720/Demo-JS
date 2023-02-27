@@ -53,28 +53,42 @@ function requestBreweries() {
         });
 }
 
+// --------------------------------------------------------------------------------------------------------------------
+
+
+//ticketAPI from ticketmaster
 var ticketApiKey = "AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4";
+
+//event listener for the Lets go button
+//old code
 goBtn.on("click", requestEvents);
 
+//this function will fetch the parameters necessary for the opage to display
 function requestEvents() {
     var cityId = $("#typeDestination").val();
     var dateStart = $("#startDate").val();
-    // var newstartDate = dateStart.moment().format('YYYY-MM-DD');
+    var page = 0;
     var dateEnd = $("#endDate").val();
+    // var date = "2023-03-30"
+    // console.log(date)
     var ticketURL =
-        // "https://app.ticketmaster.com/discovery/v2/events.json?apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&sort=date,asc" + "&city=" + cityId + "&countryCode=US" + "&startDateTime=" + dateStart;
-        // "https://app.ticketmaster.com/discovery/v2/events.json?countryCode=US&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&" +
-        // "&city=" +
-        // cityId +
-        // "&starteDateTime=" +
-        // dateStart;
-        "https://app.ticketmaster.com/discovery/v2/events.json?sort=randomapikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4" + "&city" + cityId + "&datestart" + dateStart;
+
+        `https://app.ticketmaster.com/discovery/v2/events.json?&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&&city=${cityId}&startDateTime"${dateStart}"&endDateTime"${dateEnd}"`
 
 
+    // "&size=4&page=${page}
+
+    // `https://app.ticketmaster.com/discovery/v2/events.json?sort=relevance,desc&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&city=${cityId}&size=4&page=${page}`
+
+
+    // var ticketURL = `https://app.ticketmaster.com/discovery/v2/events.json?&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&&city=${cityId}`
+
+    // for dev view
     console.log(dateStart);
     console.log(dateEnd);
     console.log(ticketURL);
 
+    //this will fetch the ticketURL with the objects within
     fetch(ticketURL)
         .then(function (response) {
             // console.log(response);
@@ -83,29 +97,146 @@ function requestEvents() {
         .then(function (data) {
             console.log(data);
 
-            // first event
-            for (i = 0; i < 4; i++) {
+            //now just returned the events filtered by date
+            // create a variable that stores an array 
+
+            var storedArray = data._embedded.events;
+            console.log(storedArray)
+
+
+            //in my callback function i need to write a cond that checks the start date and end date and only return the object the user input date range 
+            var displayArr = storedArray.filter(event => console.log(event.dates.start.localDate))
+            console.log(displayArr)
+            // var displayArr = storedArray.filter((event) => {
+
+            //     // console.log(event.dates.start.localDate)
+            // })
+            // console.log(displayArr)
+
+
+
+            //this loop will target and declare each variable
+            for (i = 0; i < 3; i++) {
                 var mainEvent0 = data._embedded.events[i].name;
                 // console.log(mainEvent0);
-                var maineventdate0 = data._embedded.events[1].dates.start.localDate;
+                var maineventdate0 = data._embedded.events[i].dates.start.localDate;
                 // console.log(maineventdate0);
                 var venue = data._embedded.events[i]._embedded.venues[0].name;
                 // console.log(venue);
                 var purchaseURL = data._embedded.events[i].url;
                 // console.log(purchaseURL)
-                var eventImg = data._embedded.events[i].images[0].url;
-                console.log(eventImg)
+                // var eventImg = data._embedded.events[i].images[0].url;
+                // console.log(eventImg)
 
-                // using jquery to tie the variables.
+                //this will targert the variables and will display to html IDs
                 $("#event" + i).html(mainEvent0);
                 $("#date" + i).html(maineventdate0);
                 $("#venue" + i).html(venue);
-                $("#purchase-tickets" + i).html(purchaseURL);
-                // console.log(mainEvent0);
-                // add date parameter to url (&=)
-                // var for date range
+
+                //this will replace the url text and replace with a new string
+                document.querySelector("#purchase-tickets" + i).value = purchaseURL
+                document.querySelector("#purchase-tickets" + i).innerHTML = `Click Here for more info`
+                var goBtn = $("#purchase-tickets" + i);
+                goBtn.on("click", openLink);
+
+
             }
 
-            // document.getElementById("").addEventListener("click", purchaseURL);
         });
+
 }
+// this function is to open the link and use a separate tab
+function openLink(value) {
+    console.log(value.target.value)
+    window.open(value.target.value)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //ticketAPI from ticketmaster
+// var ticketApiKey = "AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4";
+// // ----------------------------------------------------------------
+// // new code
+// var dateInput = $("#startDate")
+// var cityInput = $("#typeDestination")
+
+// var citiesArray = [];
+
+// //event listener for the Lets go button
+// //old code
+// goBtn.on("click", getTicketMasterInfo);
+
+
+// //------------------------------------------------------------------------------------------------------
+// var getTicketMasterInfo = function (event) {
+//     var userCity = cityInput[0].value;
+//     var userDate =
+//         moment(dateInput[0].value, "MM/DD/YYYY").format(
+//             "YYYY-MM-DD" + "T" + "HH:mm:ss"
+//         ) + "Z";
+//     // var userClassificationName = eventTypeEl[0].value;
+//     // var userSort = eventSortEl[0].selectedOptions[0].dataset.sort;
+
+//     console.log(userDate)
+//     var apiUrl =
+//         "https://app.ticketmaster.com/discovery/v2/events/?apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&source=ticketmaster&city=" +
+//         userCity +
+//         "&startDateTime=" +
+//         userDate;
+//     console.log(apiUrl)
+
+//     fetch(apiUrl)
+
+//         .then(function (response) {
+//             console.log(response);
+//             return response.json();
+//         })
+//         .then(function (data) {
+//             console.log(data);
+
+//         })//function bracket
+
+
+// }
+// }
