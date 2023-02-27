@@ -67,13 +67,14 @@ goBtn.on("click", requestEvents);
 function requestEvents() {
     var cityId = $("#typeDestination").val();
     var dateStart = $("#startDate").val();
-    var page = 0;
     var dateEnd = $("#endDate").val();
     // var date = "2023-03-30"
     // console.log(date)
     var ticketURL =
 
-        `https://app.ticketmaster.com/discovery/v2/events.json?&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&&city=${cityId}&startDateTime"${dateStart}"&endDateTime"${dateEnd}"`
+        `https://app.ticketmaster.com/discovery/v2/events.json?&apikey=AGWa5vWEgQZJJbVa9ZHcAxkl7H76w1f4&&city=${cityId}`
+
+    // &startDateTime"${dateStart}"&endDateTime"${dateEnd}"
 
 
     // "&size=4&page=${page}
@@ -100,18 +101,84 @@ function requestEvents() {
             //now just returned the events filtered by date
             // create a variable that stores an array 
 
-            var storedArray = data._embedded.events;
-            console.log(storedArray)
+            //main array of objects 
+            // var storedArray = data._embedded.events[i].dates.start.localDate;
+            // console.log(storedArray)
 
 
             //in my callback function i need to write a cond that checks the start date and end date and only return the object the user input date range 
-            var displayArr = storedArray.filter(event => console.log(event.dates.start.localDate))
-            console.log(displayArr)
-            // var displayArr = storedArray.filter((event) => {
 
-            //     // console.log(event.dates.start.localDate)
+            //this array shows the date of the events 
+            // var dateArr = storedArray.filter(event => console.log(event.dates.start.localDate))
+            // console.log(dateArr)
+
+
+
+
+
+            // //this array will be the callback function 
+            // var displayArr = storedArray.filter((event) => {
+            //     return
             // })
+
+            // var newArray = [];
+
+            // //this loop is for the filter of the dates 
+            // for (i = 0; i < 20; i++) {
+
+            // var dateStart = $("#startDate").val();
+            // var userEndDate = "2023-07-01"
+
+            //     // console.log(storedArray)
+            //     var storedArray = data._embedded.events[i].dates.start.localDate;
+
+            //     newArray.push(storedArray)
+
+
+            //     // var eventDate = events.data.dates.start.localDate
+
+            //     // console.log(concatArr)
+            //     console.log(newArray)
+
+
+
+
+
+            //----------------------
+            // start date restuls filtered 
+            var startResults = data._embedded.events.filter((event) => {
+
+                return event.dates.start.localDate >= dateStart
+            })
+            console.log(startResults)
+
+            var endResults = data._embedded.events.filter((event) => {
+                return event.dates.start.localDate <= dateEnd
+            })
+            console.log(endResults)
+
+
+
+
+
+
+
+
+
+            //     var filteredArr = storedArray.filter(function (newDates) {
+            //         return newDates >= userStartDate;
+
+            //         console.log(filteredArr);
+            //     })
+            // })
+
+
+
+
+
+
             // console.log(displayArr)
+            // console.log(event.dates.start.localDate)
 
 
 
@@ -127,6 +194,7 @@ function requestEvents() {
                 // console.log(purchaseURL)
                 // var eventImg = data._embedded.events[i].images[0].url;
                 // console.log(eventImg)
+
 
                 //this will targert the variables and will display to html IDs
                 $("#event" + i).html(mainEvent0);
