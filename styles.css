@@ -1,12 +1,19 @@
 * {
-    font-family: 'Spinnaker', sans-serif;
+    font-family: "Overlock", cursive;
+    font-family: "Spinnaker", sans-serif;
+    box-sizing: border-box;
 }
 
 :root {
-    --DarkBlue: #152A38;
-    --Blue: #29435C;
-    --Green: #556E53;
-    --Steel: #D1D4C9;
+    --DarkBlue: #152a38;
+    --Blue: #29435c;
+    --Green: #556e53;
+    --Steel: #d1d4c9;
+}
+
+header {
+    background-color: var(--Green);
+    color: var(--Steel);
 }
 
 body {
@@ -19,43 +26,51 @@ h1 {
     padding: 30px;
 }
 
+h3 {
+    font-family: "Overlock", cursive;
+}
+
+.btn {
+    background-color: var(--DarkBlue);
+    border: var(--DarkBlue);
+}
+
+.btn:hover {
+    background-color: var(--Blue);
+    border: var(--Blue);
+}
+
+#exampleModalLabel {
+    margin-left: 25%;
+    line-height: 5px;
+}
+
+h4 {
+    color: var(--DarkBlue);
+}
+
 .hide {
     display: none;
 }
 
-.btn {
-background: #0d161c;
-    background-image: -webkit-linear-gradient(top, #0d161c, #202a30);
-    background-image: -moz-linear-gradient(top, #0d161c, #202a30);
-    background-image: -ms-linear-gradient(top, #0d161c, #202a30);
-    background-image: -o-linear-gradient(top, #0d161c, #202a30);
-    background-image: linear-gradient(to bottom, #0d161c, #202a30);
-    -webkit-border-radius: 16;
-    -moz-border-radius: 16;
-    border-radius: 16px;
-    font-family: Georgia;
-    color: #ffffff;
-    font-size: 20px;
-    padding: 10px 20px 10px 20px;
-    border: solid #000000 0px;
-    text-decoration: none;
+footer {
+    color: var(--Steel);
+    /* padding-top: 15px; */
 }
 
-
-.btn:hover {
-
-    background: #569fcc;
-        background-image: -webkit-linear-gradient(top, #569fcc, #4284ad);
-        background-image: -moz-linear-gradient(top, #569fcc, #4284ad);
-        background-image: -ms-linear-gradient(top, #569fcc, #4284ad);
-        background-image: -o-linear-gradient(top, #569fcc, #4284ad);
-        background-image: linear-gradient(to bottom, #569fcc, #4284ad);
-        text-decoration: none;
-
+footer a {
+    color: var(--Steel);
 }
 
-.footer {
-    background-color: white;
-    color: black;
-    margin: 0;
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    h4 {
+        color: var(--Steel);
+        text-shadow: 0 0 5px gray;
+    }
+
+    .card {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
